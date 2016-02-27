@@ -50,20 +50,19 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="75" id="MUk-8G-dei"/>
                                 </constraints>
+                                <connections>
+                                    <action selector="gotOnBtn:" destination="CcR-XY-xHI" eventType="touchUpInside" id="KA2-cN-g4g"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="pIO-hC-MUy" firstAttribute="leading" secondItem="mzw-Tx-BKF" secondAttribute="leading" id="1Vf-9h-oCi"/>
                             <constraint firstItem="iZr-Vz-SA6" firstAttribute="leading" secondItem="mzw-Tx-BKF" secondAttribute="leadingMargin" constant="-20" id="1ar-aW-ouL"/>
-                            <constraint firstItem="pIO-hC-MUy" firstAttribute="leading" secondItem="mzw-Tx-BKF" secondAttribute="leadingMargin" id="4yu-f4-fVE"/>
                             <constraint firstAttribute="trailingMargin" secondItem="pIO-hC-MUy" secondAttribute="trailing" constant="-20" id="EZL-Pk-DYm"/>
                             <constraint firstItem="iZr-Vz-SA6" firstAttribute="top" secondItem="mzw-Tx-BKF" secondAttribute="topMargin" id="Jwe-Gk-bcO"/>
                             <constraint firstItem="dBx-WK-i9w" firstAttribute="top" secondItem="iZr-Vz-SA6" secondAttribute="bottom" id="Ow0-jB-cRg"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="pIO-hC-MUy" secondAttribute="trailing" id="SlE-xY-6fY"/>
                             <constraint firstItem="tYe-0v-L3d" firstAttribute="top" secondItem="dBx-WK-i9w" secondAttribute="bottom" id="bog-HO-k0i"/>
                             <constraint firstItem="iZr-Vz-SA6" firstAttribute="top" secondItem="mzw-Tx-BKF" secondAttribute="topMargin" constant="20" id="de5-a2-acU"/>
-                            <constraint firstAttribute="trailing" secondItem="pIO-hC-MUy" secondAttribute="trailing" id="kJZ-lp-6Km"/>
                             <constraint firstAttribute="trailingMargin" secondItem="dBx-WK-i9w" secondAttribute="trailing" constant="-20" id="s9c-0S-xT4"/>
                             <constraint firstItem="tYe-0v-L3d" firstAttribute="top" secondItem="pIO-hC-MUy" secondAttribute="bottom" id="sqj-wF-HMg"/>
                             <constraint firstAttribute="trailingMargin" secondItem="iZr-Vz-SA6" secondAttribute="trailing" constant="-20" id="tAX-nb-yMB"/>
@@ -73,10 +72,6 @@
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="Jwe-Gk-bcO"/>
-                                <exclude reference="1Vf-9h-oCi"/>
-                                <exclude reference="4yu-f4-fVE"/>
-                                <exclude reference="SlE-xY-6fY"/>
-                                <exclude reference="kJZ-lp-6Km"/>
                             </mask>
                         </variation>
                     </view>

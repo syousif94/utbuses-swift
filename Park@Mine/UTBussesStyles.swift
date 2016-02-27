@@ -20,6 +20,8 @@ public class UTBussesStyles : NSObject {
         static let green: UIColor = UIColor(red: 0.314, green: 0.675, blue: 0.071, alpha: 1.000)
         static let red: UIColor = UIColor(red: 0.816, green: 0.008, blue: 0.106, alpha: 1.000)
         static let yellow: UIColor = UIColor(red: 0.961, green: 0.651, blue: 0.137, alpha: 1.000)
+        static let buttonBlue: UIColor = UIColor(red: 0.082, green: 0.478, blue: 0.988, alpha: 1.000)
+        static let routeBlue: UIColor = UIColor(red: 0.290, green: 0.565, blue: 0.886, alpha: 0.510)
     }
 
     //// Colors
@@ -27,6 +29,8 @@ public class UTBussesStyles : NSObject {
     public class var green: UIColor { return Cache.green }
     public class var red: UIColor { return Cache.red }
     public class var yellow: UIColor { return Cache.yellow }
+    public class var buttonBlue: UIColor { return Cache.buttonBlue }
+    public class var routeBlue: UIColor { return Cache.routeBlue }
 
     //// Drawing Methods
     public class func drawPin(time: NSDate) {
@@ -132,6 +136,14 @@ public class UTBussesStyles : NSObject {
         CGContextClipToRect(context, rectangleRect);
         NSString(string: gotOnLabel).drawInRect(CGRectMake(rectangleRect.minX, rectangleRect.minY + (rectangleRect.height - rectangleTextHeight) / 2, rectangleRect.width, rectangleTextHeight), withAttributes: rectangleFontAttributes)
         CGContextRestoreGState(context)
+    }
+    
+    public class func drawBusStop() {
+        
+        //// Oval Drawing
+        let ovalPath = UIBezierPath(ovalInRect: CGRectMake(0, 0, 14, 14))
+        UTBussesStyles.buttonBlue.setFill()
+        ovalPath.fill()
     }
 
 }

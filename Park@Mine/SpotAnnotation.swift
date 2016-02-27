@@ -11,12 +11,16 @@ import MapKit
 
 class SpotAnnotation : NSObject, MKAnnotation {
     
+    var type: String
     var coordinate: CLLocationCoordinate2D
-    var time: NSDate
+    var time: NSDate?
     
-    init(location coord:CLLocationCoordinate2D, time: NSDate) {
+    init(type: String, location coord:CLLocationCoordinate2D, time: NSDate?) {
+        self.type = type
         self.coordinate = coord
-        self.time = time
+        if let time = time {
+            self.time = time
+        }
         super.init()
     }
     

@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		53111DC31C7E6DAE00F59B8E /* SpotDatum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53111DC21C7E6DAE00F59B8E /* SpotDatum.swift */; };
 		5340941F1C7F0521005329D4 /* GotOnButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5340941E1C7F0521005329D4 /* GotOnButton.swift */; };
+		53596DF31C7F99BD006FF8D2 /* BusStops.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53596DF21C7F99BD006FF8D2 /* BusStops.swift */; };
+		53596DF51C7FBE92006FF8D2 /* BusStopAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53596DF41C7FBE91006FF8D2 /* BusStopAnnotationView.swift */; };
+		53596E011C7FF57D006FF8D2 /* Polyline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53596E001C7FF57D006FF8D2 /* Polyline.swift */; };
 		536619981C6C4C53003E1FD4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536619971C6C4C53003E1FD4 /* AppDelegate.swift */; };
 		5366199A1C6C4C53003E1FD4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536619991C6C4C53003E1FD4 /* ViewController.swift */; };
 		5366199D1C6C4C53003E1FD4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5366199B1C6C4C53003E1FD4 /* Main.storyboard */; };
@@ -32,6 +35,9 @@
 /* Begin PBXFileReference section */
 		53111DC21C7E6DAE00F59B8E /* SpotDatum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotDatum.swift; sourceTree = "<group>"; };
 		5340941E1C7F0521005329D4 /* GotOnButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GotOnButton.swift; sourceTree = "<group>"; };
+		53596DF21C7F99BD006FF8D2 /* BusStops.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusStops.swift; sourceTree = "<group>"; };
+		53596DF41C7FBE91006FF8D2 /* BusStopAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusStopAnnotationView.swift; sourceTree = "<group>"; };
+		53596E001C7FF57D006FF8D2 /* Polyline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Polyline.swift; path = vendor/Polyline.swift; sourceTree = "<group>"; };
 		536619941C6C4C53003E1FD4 /* UTBusses.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UTBusses.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		536619971C6C4C53003E1FD4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		536619991C6C4C53003E1FD4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -76,6 +82,7 @@
 		5366198B1C6C4C53003E1FD4 = {
 			isa = PBXGroup;
 			children = (
+				53596E001C7FF57D006FF8D2 /* Polyline.swift */,
 				53A5E5931C7D425D00570D8B /* GeoFire.framework */,
 				53A5E58F1C7D3F4500570D8B /* CoreLocation.framework */,
 				53A5E58D1C7D3E8700570D8B /* SystemConfiguration.framework */,
@@ -103,7 +110,9 @@
 				53A5E5801C7D286400570D8B /* UTBussesStyles.swift */,
 				536619971C6C4C53003E1FD4 /* AppDelegate.swift */,
 				536619991C6C4C53003E1FD4 /* ViewController.swift */,
+				53596DF21C7F99BD006FF8D2 /* BusStops.swift */,
 				53E2A4291C6E057D000A75B1 /* SpotAnnotation.swift */,
+				53596DF41C7FBE91006FF8D2 /* BusStopAnnotationView.swift */,
 				53E2A42B1C6E06C9000A75B1 /* SpotAnnotationView.swift */,
 				53A5E5961C7D42E200570D8B /* BridgingHeader.h */,
 				5340941E1C7F0521005329D4 /* GotOnButton.swift */,
@@ -203,7 +212,10 @@
 				53111DC31C7E6DAE00F59B8E /* SpotDatum.swift in Sources */,
 				53A5E5811C7D286400570D8B /* UTBussesStyles.swift in Sources */,
 				536619AE1C6C4E3A003E1FD4 /* MapViewController.swift in Sources */,
+				53596DF31C7F99BD006FF8D2 /* BusStops.swift in Sources */,
 				5340941F1C7F0521005329D4 /* GotOnButton.swift in Sources */,
+				53596DF51C7FBE92006FF8D2 /* BusStopAnnotationView.swift in Sources */,
+				53596E011C7FF57D006FF8D2 /* Polyline.swift in Sources */,
 				536619981C6C4C53003E1FD4 /* AppDelegate.swift in Sources */,
 				53E2A42A1C6E057D000A75B1 /* SpotAnnotation.swift in Sources */,
 			);

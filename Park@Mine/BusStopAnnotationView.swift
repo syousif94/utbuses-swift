@@ -1,19 +1,20 @@
 //
-//  SpotAnnotationView.swift
-//  Park@Mine
+//  BusStopAnnotationView.swift
+//  UTBusses
 //
-//  Created by Sammy Yousif on 2/12/16.
+//  Created by Sammy Yousif on 2/25/16.
 //  Copyright © 2016 Sammy Yousif. All rights reserved.
 //
 
 import UIKit
 import MapKit
 
-class SpotAnnotationView : MKAnnotationView {
+class BusStopAnnotationView: MKAnnotationView {
+
     override init(annotation:MKAnnotation?, reuseIdentifier:String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
-        self.frame = CGRectMake(0, 0, 41, 24)
-        self.centerOffset = CGPointMake(0,-12)
+        self.frame = CGRectMake(0, 0, 14, 14)
+        self.centerOffset = CGPointMake(0,0)
         self.opaque = false
     }
     
@@ -26,15 +27,7 @@ class SpotAnnotationView : MKAnnotationView {
     }
     
     override func drawRect(rect: CGRect) {
-        guard let annotation = annotation as? SpotAnnotation else {
-         return
-        }
-        if let time = annotation.time {
-            UTBussesStyles.drawPin(time)
-        }
+        UTBussesStyles.drawBusStop()
     }
-    
-    func refresh() {
-        self.setNeedsDisplay()
-    }
+
 }
