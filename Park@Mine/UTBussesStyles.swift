@@ -22,6 +22,7 @@ public class UTBussesStyles : NSObject {
         static let yellow: UIColor = UIColor(red: 0.961, green: 0.651, blue: 0.137, alpha: 1.000)
         static let buttonBlue: UIColor = UIColor(red: 0.082, green: 0.478, blue: 0.988, alpha: 1.000)
         static let routeBlue: UIColor = UIColor(red: 0.290, green: 0.565, blue: 0.886, alpha: 0.510)
+        static let purple: UIColor = UIColor(red: 0.565, green: 0.075, blue: 0.996, alpha: 1.000)
     }
 
     //// Colors
@@ -31,6 +32,7 @@ public class UTBussesStyles : NSObject {
     public class var yellow: UIColor { return Cache.yellow }
     public class var buttonBlue: UIColor { return Cache.buttonBlue }
     public class var routeBlue: UIColor { return Cache.routeBlue }
+    public class var purple: UIColor { return Cache.purple }
 
     //// Drawing Methods
     public class func drawPin(time: NSDate) {
@@ -75,8 +77,8 @@ public class UTBussesStyles : NSObject {
         CGContextSaveGState(context)
         CGContextSetShadowWithColor(context, shadow.shadowOffset, shadow.shadowBlurRadius, (shadow.shadowColor as! UIColor).CGColor)
         
-        let greenTime: Double = 2 * 60
-        let yellowTime: Double = 5 * 60
+        let greenTime: Double = 5 * 60
+        let yellowTime: Double = 10 * 60
         
         let unixTime = time.timeIntervalSince1970
         let currentTime = NSDate().timeIntervalSince1970

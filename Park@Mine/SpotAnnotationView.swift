@@ -30,6 +30,10 @@ class SpotAnnotationView : MKAnnotationView {
          return
         }
         if let time = annotation.time {
+            if time.timeIntervalSinceNow <= -1200 {
+                self.hidden = true
+                return
+            }
             UTBussesStyles.drawPin(time)
         }
     }

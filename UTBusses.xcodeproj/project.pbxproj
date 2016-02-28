@@ -28,6 +28,9 @@
 		53A5E5901C7D3F4500570D8B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53A5E58F1C7D3F4500570D8B /* CoreLocation.framework */; };
 		53A5E5941C7D425D00570D8B /* GeoFire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53A5E5931C7D425D00570D8B /* GeoFire.framework */; };
 		53A5E5971C7D431B00570D8B /* BridgingHeader.h in Sources */ = {isa = PBXBuildFile; fileRef = 53A5E5961C7D42E200570D8B /* BridgingHeader.h */; };
+		53B7C6DA1C82DF9600F33A73 /* CWStatusBarNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B7C6D81C82DF9600F33A73 /* CWStatusBarNotification.swift */; };
+		53B7C6DB1C82DF9600F33A73 /* CWStatusBarNotificationUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B7C6D91C82DF9600F33A73 /* CWStatusBarNotificationUtils.swift */; };
+		53B7C6DF1C82F23000F33A73 /* CircleProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B7C6DE1C82F23000F33A73 /* CircleProgressView.swift */; };
 		53E2A42A1C6E057D000A75B1 /* SpotAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E2A4291C6E057D000A75B1 /* SpotAnnotation.swift */; };
 		53E2A42C1C6E06C9000A75B1 /* SpotAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E2A42B1C6E06C9000A75B1 /* SpotAnnotationView.swift */; };
 /* End PBXBuildFile section */
@@ -56,6 +59,9 @@
 		53A5E58F1C7D3F4500570D8B /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		53A5E5931C7D425D00570D8B /* GeoFire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GeoFire.framework; path = vendor/GeoFire.framework; sourceTree = "<group>"; };
 		53A5E5961C7D42E200570D8B /* BridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
+		53B7C6D81C82DF9600F33A73 /* CWStatusBarNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CWStatusBarNotification.swift; path = vendor/CWStatusBarNotification.swift; sourceTree = "<group>"; };
+		53B7C6D91C82DF9600F33A73 /* CWStatusBarNotificationUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CWStatusBarNotificationUtils.swift; path = vendor/CWStatusBarNotificationUtils.swift; sourceTree = "<group>"; };
+		53B7C6DE1C82F23000F33A73 /* CircleProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CircleProgressView.swift; path = vendor/CircleProgressView.swift; sourceTree = "<group>"; };
 		53E2A4291C6E057D000A75B1 /* SpotAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotAnnotation.swift; sourceTree = "<group>"; };
 		53E2A42B1C6E06C9000A75B1 /* SpotAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotAnnotationView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -82,6 +88,9 @@
 		5366198B1C6C4C53003E1FD4 = {
 			isa = PBXGroup;
 			children = (
+				53B7C6DE1C82F23000F33A73 /* CircleProgressView.swift */,
+				53B7C6D81C82DF9600F33A73 /* CWStatusBarNotification.swift */,
+				53B7C6D91C82DF9600F33A73 /* CWStatusBarNotificationUtils.swift */,
 				53596E001C7FF57D006FF8D2 /* Polyline.swift */,
 				53A5E5931C7D425D00570D8B /* GeoFire.framework */,
 				53A5E58F1C7D3F4500570D8B /* CoreLocation.framework */,
@@ -208,10 +217,13 @@
 			files = (
 				53A5E5971C7D431B00570D8B /* BridgingHeader.h in Sources */,
 				5366199A1C6C4C53003E1FD4 /* ViewController.swift in Sources */,
+				53B7C6DF1C82F23000F33A73 /* CircleProgressView.swift in Sources */,
 				53E2A42C1C6E06C9000A75B1 /* SpotAnnotationView.swift in Sources */,
 				53111DC31C7E6DAE00F59B8E /* SpotDatum.swift in Sources */,
 				53A5E5811C7D286400570D8B /* UTBussesStyles.swift in Sources */,
 				536619AE1C6C4E3A003E1FD4 /* MapViewController.swift in Sources */,
+				53B7C6DB1C82DF9600F33A73 /* CWStatusBarNotificationUtils.swift in Sources */,
+				53B7C6DA1C82DF9600F33A73 /* CWStatusBarNotification.swift in Sources */,
 				53596DF31C7F99BD006FF8D2 /* BusStops.swift in Sources */,
 				5340941F1C7F0521005329D4 /* GotOnButton.swift in Sources */,
 				53596DF51C7FBE92006FF8D2 /* BusStopAnnotationView.swift in Sources */,

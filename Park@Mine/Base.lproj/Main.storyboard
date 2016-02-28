@@ -45,29 +45,85 @@
                                     </mask>
                                 </variation>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pIO-hC-MUy" customClass="GotOnButton" customModule="UTBusses" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="525" width="600" height="75"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ppv-78-27q">
+                                <rect key="frame" x="25" y="525" width="550" height="50"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zJi-ms-O31" customClass="CircleProgressView" customModule="UTBusses" customModuleProvider="target">
+                                        <rect key="frame" x="8" y="8" width="34" height="34"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="34" id="Hco-zW-Ifn"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="trackBackgroundColor">
+                                                <color key="value" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="trackFillColor">
+                                                <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="trackWidth">
+                                                <real key="value" value="6"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="progress">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="trackBorderColor">
+                                                <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="trackBorderWidth">
+                                                <real key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="hidden" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qkV-fI-yox">
+                                        <rect key="frame" x="0.0" y="0.0" width="550" height="50"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
+                                        <state key="normal" title="I just got on the bus!"/>
+                                        <connections>
+                                            <action selector="gotOnBtn:" destination="CcR-XY-xHI" eventType="touchUpInside" id="2c0-eN-0L5"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="75" id="MUk-8G-dei"/>
+                                    <constraint firstAttribute="height" constant="50" id="5ds-6F-sfm"/>
+                                    <constraint firstItem="zJi-ms-O31" firstAttribute="top" secondItem="Ppv-78-27q" secondAttribute="top" constant="8" id="7Ig-nq-4Sg"/>
+                                    <constraint firstAttribute="bottom" secondItem="zJi-ms-O31" secondAttribute="bottom" constant="8" id="83T-3Y-uYu"/>
+                                    <constraint firstAttribute="trailing" secondItem="qkV-fI-yox" secondAttribute="trailing" id="Ja1-Pm-Wd9"/>
+                                    <constraint firstItem="qkV-fI-yox" firstAttribute="centerX" secondItem="Ppv-78-27q" secondAttribute="centerX" id="KwA-ey-vBo"/>
+                                    <constraint firstItem="qkV-fI-yox" firstAttribute="top" secondItem="Ppv-78-27q" secondAttribute="top" id="NWL-k2-mTr"/>
+                                    <constraint firstItem="zJi-ms-O31" firstAttribute="leading" secondItem="Ppv-78-27q" secondAttribute="leading" constant="8" id="dRM-DH-hg3"/>
+                                    <constraint firstItem="qkV-fI-yox" firstAttribute="leading" secondItem="Ppv-78-27q" secondAttribute="leading" id="j1S-3J-L6C"/>
+                                    <constraint firstItem="qkV-fI-yox" firstAttribute="centerY" secondItem="Ppv-78-27q" secondAttribute="centerY" id="q83-Dj-twd"/>
+                                    <constraint firstAttribute="bottom" secondItem="qkV-fI-yox" secondAttribute="bottom" id="t1p-MT-67r"/>
                                 </constraints>
-                                <connections>
-                                    <action selector="gotOnBtn:" destination="CcR-XY-xHI" eventType="touchUpInside" id="KA2-cN-g4g"/>
-                                </connections>
-                            </button>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="KwA-ey-vBo"/>
+                                        <exclude reference="q83-Dj-twd"/>
+                                    </mask>
+                                </variation>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="iZr-Vz-SA6" firstAttribute="leading" secondItem="mzw-Tx-BKF" secondAttribute="leadingMargin" constant="-20" id="1ar-aW-ouL"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="pIO-hC-MUy" secondAttribute="trailing" constant="-20" id="EZL-Pk-DYm"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Ppv-78-27q" secondAttribute="trailing" constant="5" id="3pf-dV-sgt"/>
                             <constraint firstItem="iZr-Vz-SA6" firstAttribute="top" secondItem="mzw-Tx-BKF" secondAttribute="topMargin" id="Jwe-Gk-bcO"/>
                             <constraint firstItem="dBx-WK-i9w" firstAttribute="top" secondItem="iZr-Vz-SA6" secondAttribute="bottom" id="Ow0-jB-cRg"/>
+                            <constraint firstItem="tYe-0v-L3d" firstAttribute="top" secondItem="Ppv-78-27q" secondAttribute="bottom" constant="25" id="Znc-bR-Fkw"/>
                             <constraint firstItem="tYe-0v-L3d" firstAttribute="top" secondItem="dBx-WK-i9w" secondAttribute="bottom" id="bog-HO-k0i"/>
                             <constraint firstItem="iZr-Vz-SA6" firstAttribute="top" secondItem="mzw-Tx-BKF" secondAttribute="topMargin" constant="20" id="de5-a2-acU"/>
                             <constraint firstAttribute="trailingMargin" secondItem="dBx-WK-i9w" secondAttribute="trailing" constant="-20" id="s9c-0S-xT4"/>
-                            <constraint firstItem="tYe-0v-L3d" firstAttribute="top" secondItem="pIO-hC-MUy" secondAttribute="bottom" id="sqj-wF-HMg"/>
                             <constraint firstAttribute="trailingMargin" secondItem="iZr-Vz-SA6" secondAttribute="trailing" constant="-20" id="tAX-nb-yMB"/>
-                            <constraint firstItem="pIO-hC-MUy" firstAttribute="leading" secondItem="mzw-Tx-BKF" secondAttribute="leadingMargin" constant="-20" id="udh-Gd-aZc"/>
                             <constraint firstItem="dBx-WK-i9w" firstAttribute="leading" secondItem="mzw-Tx-BKF" secondAttribute="leadingMargin" constant="-20" id="yQ9-sG-QqH"/>
+                            <constraint firstItem="Ppv-78-27q" firstAttribute="leading" secondItem="mzw-Tx-BKF" secondAttribute="leadingMargin" constant="5" id="ywO-NH-ZxD"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
@@ -76,7 +132,10 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="btnBg" destination="Ppv-78-27q" id="B4v-Fp-Cjm"/>
+                        <outlet property="gotOnBtn" destination="qkV-fI-yox" id="EHO-iU-4l9"/>
                         <outlet property="map" destination="dBx-WK-i9w" id="A8h-ao-h5O"/>
+                        <outlet property="undoTimeLeft" destination="zJi-ms-O31" id="jpw-ft-wLF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HGI-Nv-5Np" userLabel="First Responder" sceneMemberID="firstResponder"/>

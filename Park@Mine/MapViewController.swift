@@ -11,9 +11,16 @@ import CoreLocation
 import MapKit
 import Firebase
 
+let kPostButton = "I just got on the bus!"
+let kUndoButton = "Undo Location Update"
+let kFirebaseServerValueTimestamp = [".sv":"timestamp"]
+
 class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     
+    @IBOutlet weak var undoTimeLeft: CircleProgressView!
     @IBOutlet weak var map: MKMapView!
+    @IBOutlet weak var btnBg: UIView!
+    @IBOutlet weak var gotOnBtn: UIButton!
     @IBAction func gotOnBtn(sender: AnyObject) {
         switch CLLocationManager.authorizationStatus() {
         case .AuthorizedWhenInUse:
@@ -31,11 +38,43 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         locationManager.requestWhenInUseAuthorization()
     }
     
-    let minDistanceFromStop: Double = 50
+    let notification = CWStatusBarNotification()
+    
+    let minDistanceFromStop: Double = 60.69 // 200 feet
+    
+    var checkInRef: Firebase?
+    
+    var undoPercetage: Double = 0
+    
+    func stopUndoCountdown() {
+        checkInRef = nil
+        undoTimer?.invalidate()
+        undoTimer = nil
+        undoTimeLeft.hidden = true
+        undoPercetage = 0
+        undoTimeLeft.progress = undoPercetage
+        gotOnBtn.setTitle(kPostButton, forState: .Normal)
+        gotOnBtn.setTitleColor(UIColor.blueColor(), forState: .Normal)
+    }
+    
+    func updateUndoCircle() {
+        undoPercetage = undoPercetage + 0.01
+        undoTimeLeft.progress = undoPercetage
+        if undoPercetage >= 1 {
+            stopUndoCountdown()
+        }
+    }
     
     func checkInOnBus() {
+        if let key = checkInRef?.key {
+            self.removePin(key)
+            geoFire.removeKey(key)
+            checkInRef?.removeValue()
+            stopUndoCountdown()
+            return
+        }
         let deviceTime = NSDate().timeIntervalSince1970 * 1000
-        let location = self.locationManager.location
+        let location = map.userLocation.location
         if let l = location {
             /*
             if l.horizontalAccuracy > minDistanceFromStop {
@@ -50,17 +89,26 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 return false
             }
             if distances.count < 1 {
+                self.notification.displayNotificationWithMessage("If you're within 200 feet of a stop, please try again.", forDuration: 1.7)
                 return
             }
-            let checkInRef = wcDataRef.childByAutoId()
-            let kFirebaseServerValueTimestamp = [".sv":"timestamp"]
+            checkInRef = wcDataRef.childByAutoId()
+            createPin(checkInRef!.key, location: l, deviceTime: deviceTime, serverTime: deviceTime)
+            gotOnBtn.setTitle(kUndoButton, forState: .Normal)
+            gotOnBtn.setTitleColor(UIColor.redColor(), forState: .Normal)
+            undoTimeLeft.hidden = false
+            undoTimer = NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: "updateUndoCircle", userInfo: nil, repeats: true)
             let checkIn = ["deviceTime": deviceTime, "timestamp": kFirebaseServerValueTimestamp]
-            checkInRef.setValue(checkIn, withCompletionBlock: {
+            checkInRef!.setValue(checkIn, withCompletionBlock: {
                 (error:NSError?, ref:Firebase!) in
                 if (error != nil) {
-                    print("Data could not be saved.")
+                    self.removePin(self.checkInRef!.key)
                 } else {
-                    self.geoFire.setLocation(l, forKey: checkInRef.key)
+                    self.geoFire.setLocation(l, forKey: self.checkInRef!.key) { error in
+                        if (error != nil) {
+                            self.removePin(self.checkInRef!.key)
+                        }
+                    }
                 }
             })
         }
@@ -69,6 +117,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var locationManager: CLLocationManager!
     
     var timer: NSTimer?
+    
+    var undoTimer: NSTimer?
     
     var spots = [String:SpotAnnotation]()
     
@@ -86,15 +136,33 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         return GeoFire(firebaseRef: geoFireRef)
     }
     
+    func createPin(key: String, location: CLLocation, deviceTime: Double, serverTime: Double) {
+        let spot = SpotDatum(location: location, deviceTime: deviceTime, serverTime: serverTime)
+        let annotation = SpotAnnotation(type: "user", location: spot.location, time: spot.deviceTime)
+        if spots[key] == nil {
+            spots[key] = annotation
+            map.addAnnotation(annotation)
+        }
+    }
+    
+    func removePin(key: String) {
+        if let annotation = self.spots[key] {
+            map.removeAnnotation(annotation)
+            spots[key] = nil
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         locationManager = CLLocationManager()
         locationManager.delegate = self
-        locationManager.desiredAccuracy = 1
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
         
         map.delegate = self
         map.showsPointsOfInterest = false
+        map.showsCompass = false
+        map.pitchEnabled = false
         if CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse {
             map.showsUserLocation = true
         }
@@ -117,6 +185,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             self.map.addAnnotation(annotation)
         }
         
+        notification.notificationLabelBackgroundColor = UTBussesStyles.purple
+        notification.notificationLabelFont = UIFont.boldSystemFontOfSize(12)
+        notification.notificationAnimationInStyle = CWNotificationAnimationStyle.Top
+        notification.notificationAnimationOutStyle = CWNotificationAnimationStyle.Top
+        
         // Query location by region
         let center = CLLocation(latitude: 30.286267, longitude: -97.742528)
         let query = geoFire.queryAtLocation(center, withRadius: 3500)
@@ -125,18 +198,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             self.wcDataRef.childByAppendingPath(key).observeSingleEventOfType(.Value, withBlock: { snapshot in
                 let deviceTime = snapshot.childSnapshotForPath("deviceTime").value as! Double
                 let serverTime = snapshot.childSnapshotForPath("timestamp").value as! Double
-                let spot = SpotDatum(location: location, deviceTime: deviceTime, serverTime: serverTime)
-                let annotation = SpotAnnotation(type: "user", location: spot.location, time: spot.deviceTime)
-                self.spots[key] = annotation
-                self.map.addAnnotation(annotation)
+                self.createPin(key, location: location, deviceTime: deviceTime, serverTime: serverTime)
             })
         })
         
         query.observeEventType(.KeyExited, withBlock: { (key: String!, location: CLLocation!) in
-            if let annotation = self.spots[key] {
-                self.map.removeAnnotation(annotation)
-                self.spots[key] = nil
-            }
+            self.removePin(key)
         })
         
         dispatch_async(dispatch_get_main_queue()) {
