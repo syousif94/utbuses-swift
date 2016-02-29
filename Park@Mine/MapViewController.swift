@@ -113,6 +113,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                     }
                 }
             })
+        } else {
+            self.notification.displayNotificationWithMessage("Wait until your location appears on the map.", forDuration: 1.7)
         }
     }
     
