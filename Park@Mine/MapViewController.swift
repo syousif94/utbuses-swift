@@ -15,7 +15,7 @@ let kPostButton = "I just got on the bus!"
 let kUndoButton = "Undo Location Update"
 let kFirebaseServerValueTimestamp = [".sv":"timestamp"]
 
-class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
+class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, UIApplicationDelegate {
     
     @IBOutlet weak var undoTimeLeft: CircleProgressView!
     @IBOutlet weak var map: MKMapView!
@@ -37,6 +37,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
         locationManager.requestWhenInUseAuthorization()
     }
+    
+    let notificationCenter = NSNotificationCenter.defaultCenter()
     
     let notification = CWStatusBarNotification()
     
@@ -206,9 +208,18 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             self.removePin(key)
         })
         
+        notificationCenter.addObserver(self,
+            selector:Selector("applicationWillResignActiveNotification"),
+            name:UIApplicationWillResignActiveNotification,
+            object:nil)
+        
         dispatch_async(dispatch_get_main_queue()) {
             self.timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "refreshPinBackgrounds", userInfo: nil, repeats: true)
         }
+    }
+    
+    func applicationWillResignActiveNotification() {
+        stopUndoCountdown()
     }
     
     func refreshPinBackgrounds() {
