@@ -56,7 +56,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         undoPercetage = 0
         undoTimeLeft.progress = undoPercetage
         gotOnBtn.setTitle(kPostButton, forState: .Normal)
-        gotOnBtn.setTitleColor(UIColor.blueColor(), forState: .Normal)
+        gotOnBtn.setTitleColor(UTBussesStyles.buttonBlue, forState: .Normal)
     }
     
     func updateUndoCircle() {
