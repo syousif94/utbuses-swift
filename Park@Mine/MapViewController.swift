@@ -52,11 +52,15 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         checkInRef = nil
         undoTimer?.invalidate()
         undoTimer = nil
-        undoTimeLeft.hidden = true
+        dispatch_async(dispatch_get_main_queue()) {
+            self.undoTimeLeft.hidden = true
+        }
         undoPercetage = 0
         undoTimeLeft.progress = undoPercetage
-        gotOnBtn.setTitle(kPostButton, forState: .Normal)
-        gotOnBtn.setTitleColor(UTBussesStyles.buttonBlue, forState: .Normal)
+        dispatch_async(dispatch_get_main_queue()) {
+            self.gotOnBtn.setTitle(kPostButton, forState: .Normal)
+            self.gotOnBtn.setTitleColor(UTBussesStyles.buttonBlue, forState: .Normal)
+        }
     }
     
     func updateUndoCircle() {
@@ -96,9 +100,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             }
             checkInRef = wcDataRef.childByAutoId()
             createPin(checkInRef!.key, location: l, deviceTime: deviceTime, serverTime: deviceTime)
-            gotOnBtn.setTitle(kUndoButton, forState: .Normal)
-            gotOnBtn.setTitleColor(UIColor.redColor(), forState: .Normal)
-            undoTimeLeft.hidden = false
+            dispatch_async(dispatch_get_main_queue()) {
+                self.gotOnBtn.setTitle(kUndoButton, forState: .Normal)
+                self.gotOnBtn.setTitleColor(UIColor.redColor(), forState: .Normal)
+                self.undoTimeLeft.hidden = false
+            }
             undoTimer = NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: "updateUndoCircle", userInfo: nil, repeats: true)
             let checkIn = ["deviceTime": deviceTime, "timestamp": kFirebaseServerValueTimestamp]
             checkInRef!.setValue(checkIn, withCompletionBlock: {
