@@ -99,7 +99,7 @@
 				53A5E5891C7D3E7300570D8B /* CFNetwork.framework */,
 				53A5E5871C7D3E6900570D8B /* libicucore.tbd */,
 				53A5E5851C7D3E5300570D8B /* libc++.tbd */,
-				536619961C6C4C53003E1FD4 /* Park@Mine */,
+				536619961C6C4C53003E1FD4 /* UTBuses */,
 				536619951C6C4C53003E1FD4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -112,7 +112,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		536619961C6C4C53003E1FD4 /* Park@Mine */ = {
+		536619961C6C4C53003E1FD4 /* UTBuses */ = {
 			isa = PBXGroup;
 			children = (
 				53A5E5821C7D3DD200570D8B /* Frameworks */,
@@ -132,7 +132,7 @@
 				536619A01C6C4C53003E1FD4 /* LaunchScreen.storyboard */,
 				536619A31C6C4C53003E1FD4 /* Info.plist */,
 			);
-			path = "Park@Mine";
+			path = UTBuses;
 			sourceTree = "<group>";
 		};
 		53A5E5821C7D3DD200570D8B /* Frameworks */ = {
@@ -344,15 +344,15 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Park@Mine",
+					"$(PROJECT_DIR)/UTBuses",
 					"$(PROJECT_DIR)/vendor",
 				);
-				INFOPLIST_FILE = "Park@Mine/Info.plist";
+				INFOPLIST_FILE = UTBuses/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = me.syousif.UTBusses;
 				PRODUCT_NAME = "UT Buses";
-				SWIFT_OBJC_BRIDGING_HEADER = "Park@Mine/BridgingHeader.h";
+				SWIFT_OBJC_BRIDGING_HEADER = UTBuses/BridgingHeader.h;
 			};
 			name = Debug;
 		};
@@ -364,15 +364,15 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Park@Mine",
+					"$(PROJECT_DIR)/UTBuses",
 					"$(PROJECT_DIR)/vendor",
 				);
-				INFOPLIST_FILE = "Park@Mine/Info.plist";
+				INFOPLIST_FILE = UTBuses/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = me.syousif.UTBusses;
 				PRODUCT_NAME = "UT Buses";
-				SWIFT_OBJC_BRIDGING_HEADER = "Park@Mine/BridgingHeader.h";
+				SWIFT_OBJC_BRIDGING_HEADER = UTBuses/BridgingHeader.h;
 			};
 			name = Release;
 		};
