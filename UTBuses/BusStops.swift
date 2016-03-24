@@ -23,7 +23,7 @@ let wcStops = [
     CLLocationCoordinate2D(latitude: 30.28972, longitude: -97.7388), // 116 DEAN KEETON/UNIVERSITY',
     CLLocationCoordinate2D(latitude: 30.291657, longitude: -97.742835), // NUECES/27TH',
     CLLocationCoordinate2D(latitude: 30.286032, longitude: -97.733433), // SAN JACINTO/23RD MIDBLOCK'
-    CLLocationCoordinate2D(latitude: 30.283523, longitude: -97.739528) // UNIVERSITY/21ST'
+    //CLLocationCoordinate2D(latitude: 30.283523, longitude: -97.739528) // UNIVERSITY/21ST'
 ]
 
 let stopAnnotations = wcStops.map { (location: CLLocationCoordinate2D) -> SpotAnnotation in
