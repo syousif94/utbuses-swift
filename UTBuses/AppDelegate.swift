@@ -15,8 +15,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        let oneSignal = OneSignal(launchOptions: launchOptions, appId: "12a609a8-a7a8-4f68-ae7d-595ae9aa216e", handleNotification: nil, autoRegister: false)
+        
+        OneSignal.defaultClient().enableInAppAlertNotification(true)
+        
         return true
+    }
+    
+    func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
+        let prefs = NSUserDefaults.standardUserDefaults()
+        prefs.setValue(true, forKey: "promptedForNotifications")
     }
 
     func applicationWillResignActive(application: UIApplication) {

@@ -11,12 +11,26 @@ import CoreLocation
 import MapKit
 import Firebase
 
-let kPostButton = "I just got on the bus!"
-let kUndoButton = "Undo Location Update"
+let kPostButton = "The bus is here!"
+let kUndoButton = "Just kidding!"
 let kFirebaseServerValueTimestamp = [".sv":"timestamp"]
 
 class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, UIApplicationDelegate {
     
+    @IBOutlet weak var stopList: UIView!
+ 
+    @IBAction func didTapStopsNotificationsBtn(sender: AnyObject) {
+        stopsNotificationsBtn.open = !stopsNotificationsBtn.open
+        stopsNotificationsBtn.pressed = false
+        stopsNotificationsBtn.setNeedsDisplay()
+        
+        if stopsNotificationsBtn.open {
+            stopList.layer.hidden = false
+        } else {
+            stopList.layer.hidden = true
+        }
+    }
+    @IBOutlet weak var stopsNotificationsBtn: NotificationButtonView!
     @IBOutlet weak var undoTimeLeft: CircleProgressView!
     @IBOutlet weak var map: MKMapView!
     @IBOutlet weak var btnBg: UIView!
@@ -86,8 +100,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             if l.horizontalAccuracy > minDistanceFromStop {
                 return
             }*/
-            let distances = wcStops.filter() { (coords: CLLocationCoordinate2D) in
-                let stop = CLLocation(latitude: coords.latitude, longitude: coords.longitude)
+            let distances = wcStops.filter() { (stop: busStop) in
+                let stop = CLLocation(latitude: stop.location.latitude, longitude: stop.location.longitude)
                 let distance = l.distanceFromLocation(stop)
                 if distance <= minDistanceFromStop {
                     return true
@@ -98,6 +112,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 self.notification.displayNotificationWithMessage("If you're within 200 feet of a stop, please try again.", forDuration: 1.7)
                 return
             }
+            let stop = distances[0]
             checkInRef = wcDataRef.childByAutoId()
             createPin(checkInRef!.key, location: l, deviceTime: deviceTime, serverTime: deviceTime)
             dispatch_async(dispatch_get_main_queue()) {
@@ -106,7 +121,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 self.undoTimeLeft.hidden = false
             }
             undoTimer = NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: "updateUndoCircle", userInfo: nil, repeats: true)
-            let checkIn = ["deviceTime": deviceTime, "timestamp": kFirebaseServerValueTimestamp]
+            let checkIn = ["deviceTime": deviceTime, "timestamp": kFirebaseServerValueTimestamp, "stopName": stop.name, "stopId": stop.id]
             checkInRef!.setValue(checkIn, withCompletionBlock: {
                 (error:NSError?, ref:Firebase!) in
                 if (error != nil) {
