@@ -16,6 +16,7 @@ class BusStopAnnotationView: MKAnnotationView {
         self.frame = CGRectMake(0, 0, 14, 14)
         self.centerOffset = CGPointMake(0,0)
         self.opaque = false
+        self.layer.zPosition = 0.1
     }
     
     override init(frame: CGRect) {

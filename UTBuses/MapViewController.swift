@@ -52,6 +52,40 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         locationManager.requestWhenInUseAuthorization()
     }
     
+    /*
+    
+    var currentRoute: Any?
+    
+    func changeRoute(route: String) {
+        currentRoute = routes[route]
+        getBuses()
+        for (_, bus) in self.spots {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.map.removeAnnotation(bus)
+            }
+        }
+        self.spots.removeAll()
+        let center = CLLocation(latitude: currentRoute.centerLat, longitude: currentRoute.centerLon)
+        let query = geoFire.queryAtLocation(center, withRadius: currentRoute.queryRadius)
+        query.observeEventType(.KeyEntered, withBlock: { (key: String!, location: CLLocation!) in
+            self.wcDataRef.childByAppendingPath(key).observeSingleEventOfType(.Value, withBlock: { snapshot in
+                guard let deviceTime = snapshot.childSnapshotForPath("deviceTime").value as? Double else {
+                    return
+                }
+                guard let serverTime = snapshot.childSnapshotForPath("timestamp").value as? Double else {
+                    return
+                }
+                self.createPin(key, location: location, deviceTime: deviceTime, serverTime: serverTime)
+            })
+        })
+        
+        query.observeEventType(.KeyExited, withBlock: { (key: String!, location: CLLocation!) in
+            self.removePin(key)
+        })
+    }
+ 
+    */
+    
     let notificationCenter = NSNotificationCenter.defaultCenter()
     
     let notification = CWStatusBarNotification()
@@ -145,7 +179,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     var undoTimer: NSTimer?
     
+    var fetchBusesTimer: NSTimer?
+    
     var spots = [String:SpotAnnotation]()
+    
+    var buses = [String:SpotAnnotation]()
     
     var firebaseRef = Firebase(url:"https://utbusses.firebaseio.com")
     
@@ -165,16 +203,73 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         let spot = SpotDatum(location: location, deviceTime: deviceTime, serverTime: serverTime)
         let annotation = SpotAnnotation(type: "user", location: spot.location, time: spot.deviceTime)
         if spots[key] == nil {
-            spots[key] = annotation
-            map.addAnnotation(annotation)
+            dispatch_async(dispatch_get_main_queue()) {
+                self.spots[key] = annotation
+                self.map.addAnnotation(annotation)
+            }
         }
     }
     
     func removePin(key: String) {
         if let annotation = self.spots[key] {
-            map.removeAnnotation(annotation)
-            spots[key] = nil
+            dispatch_async(dispatch_get_main_queue()) {
+                self.map.removeAnnotation(annotation)
+                self.spots[key] = nil
+            }
         }
+    }
+    
+    func getBuses() {
+        guard let URL = NSURL(string: "http://52.88.82.199.xip.io:8080/onebusaway-api-webapp/api/where/vehicles-for-agency/1.json?key=TEST") else { return }
+        let request = NSURLRequest(URL: URL)
+        let session = NSURLSession.sharedSession()
+        let task = session.dataTaskWithRequest(request) { data, response, error in
+            guard let d = data else {
+                return
+            }
+            do {
+                let JSON = try NSJSONSerialization.JSONObjectWithData(d, options: []) as! [String: AnyObject]
+                guard var trips = JSON["data"]!["references"]!!["trips"] as? [AnyObject] else {
+                    return
+                }
+                trips = trips.filter() { (trip) in
+                    let routeId = trip["routeId"] as! String
+                    return routeId == "1_642"
+                }
+                let tripIds = trips.map() { (trip) -> String in
+                    let tripId = trip["id"] as! String
+                    return tripId
+                }
+                let vehicles = JSON["data"]!["list"] as! [AnyObject]
+                let vehicleList = vehicles.filter() { (vehicle) in
+                    let vId = vehicle["tripId"] as! String
+                    return tripIds.contains(vId)
+                }
+                for (_, bus) in self.buses {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.map.removeAnnotation(bus)
+                    }
+                }
+                self.buses.removeAll()
+                for vehicle in vehicleList {
+                    let vId = vehicle["vehicleId"] as! String
+                    let latitude = vehicle["location"]!!["lat"] as! Double
+                    let longitude = vehicle["location"]!!["lon"] as! Double
+                    let time = vehicle["lastUpdateTime"] as! Double
+                    let location = CLLocation(latitude: latitude, longitude: longitude)
+                    let spot = SpotDatum(location: location, deviceTime: time, serverTime: time)
+                    self.buses[vId] = SpotAnnotation(type: "bus", location: spot.location, time: spot.deviceTime)
+                }
+                for (_, bus) in self.buses {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.map.addAnnotation(bus)
+                    }
+                }
+            } catch {
+                return
+            }
+        }
+        task.resume()
     }
     
     override func viewDidLoad() {
@@ -199,15 +294,21 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
         let span = MKCoordinateSpanMake(0.022, 0.022)
         let region = MKCoordinateRegion(center: location, span: span)
-        map.setRegion(region, animated: true)
+        dispatch_async(dispatch_get_main_queue()) {
+            self.map.setRegion(region, animated: false)
+        }
         
         let coordinates: [CLLocationCoordinate2D]? = decodePolyline("mgzwDrqosQuD@gBL{CfCSNe@T}@VYBm@A[vLSjFMxEwL]Q`FIv@CbDI|HhHZ?@MpC?AI`DKzD?@GbCA~A??QjEvDTdBD~F\\lCJp@FdDLpDTT_ITwHNgERqENyEnFRJaFPeFF_CZuHf@oRJu@uCGoG}@eDa@")
         let pointer: UnsafeMutablePointer<CLLocationCoordinate2D> = UnsafeMutablePointer(coordinates!)
         let polyline = MKPolyline(coordinates: pointer, count: coordinates!.count)
-        map.addOverlay(polyline)
+        dispatch_async(dispatch_get_main_queue()) {
+            self.map.addOverlay(polyline)
+        }
         
         for annotation in stopAnnotations {
-            self.map.addAnnotation(annotation)
+            dispatch_async(dispatch_get_main_queue()) {
+                self.map.addAnnotation(annotation)
+            }
         }
         
         notification.notificationLabelBackgroundColor = UTBussesStyles.purple
@@ -221,8 +322,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
         query.observeEventType(.KeyEntered, withBlock: { (key: String!, location: CLLocation!) in
             self.wcDataRef.childByAppendingPath(key).observeSingleEventOfType(.Value, withBlock: { snapshot in
-                let deviceTime = snapshot.childSnapshotForPath("deviceTime").value as! Double
-                let serverTime = snapshot.childSnapshotForPath("timestamp").value as! Double
+                guard let deviceTime = snapshot.childSnapshotForPath("deviceTime").value as? Double else {
+                    return
+                }
+                guard let serverTime = snapshot.childSnapshotForPath("timestamp").value as? Double else {
+                    return
+                }
                 self.createPin(key, location: location, deviceTime: deviceTime, serverTime: serverTime)
             })
         })
@@ -236,9 +341,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             name:UIApplicationWillResignActiveNotification,
             object:nil)
         
-        dispatch_async(dispatch_get_main_queue()) {
-            self.timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "refreshPinBackgrounds", userInfo: nil, repeats: true)
-        }
+        self.timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "refreshPinBackgrounds", userInfo: nil, repeats: true)
+        
+        getBuses()
+        fetchBusesTimer = NSTimer.scheduledTimerWithTimeInterval(15, target: self, selector: #selector(getBuses), userInfo: nil, repeats: true)
     }
     
     func applicationWillResignActiveNotification() {
@@ -251,7 +357,20 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             if a.type == "user" {
                 let annotationView = map.viewForAnnotation(annotation) as? SpotAnnotationView
                 if let av = annotationView {
-                    av.refresh()
+                    dispatch_async(dispatch_get_main_queue()) {
+                        av.refresh()
+                    }
+                }
+            }
+        }
+        for (_, annotation) in buses {
+            let a: SpotAnnotation = annotation
+            if a.type == "bus" {
+                let annotationView = map.viewForAnnotation(annotation) as? BusAnnotationView
+                if let av = annotationView {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        av.refresh()
+                    }
                 }
             }
         }
@@ -294,6 +413,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 }
                 else if ident == "stop" {
                     v = BusStopAnnotationView(annotation:annotation, reuseIdentifier:ident)
+                }
+                else if ident == "bus" {
+                    v = BusAnnotationView(annotation:annotation, reuseIdentifier:ident)
                 }
             }
         }

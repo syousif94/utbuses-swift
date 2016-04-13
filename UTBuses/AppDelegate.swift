@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let oneSignal = OneSignal(launchOptions: launchOptions, appId: "12a609a8-a7a8-4f68-ae7d-595ae9aa216e", handleNotification: nil, autoRegister: false)
         
-        OneSignal.defaultClient().enableInAppAlertNotification(true)
+        OneSignal.defaultClient().enableInAppAlertNotification(false)
         
         return true
     }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5309F35B1CAB45ED00358C72 /* BusAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5309F35A1CAB45ED00358C72 /* BusAnnotationView.swift */; };
 		53111DC31C7E6DAE00F59B8E /* SpotDatum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53111DC21C7E6DAE00F59B8E /* SpotDatum.swift */; };
 		5340941F1C7F0521005329D4 /* GotOnButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5340941E1C7F0521005329D4 /* GotOnButton.swift */; };
 		53596DF31C7F99BD006FF8D2 /* BusStops.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53596DF21C7F99BD006FF8D2 /* BusStops.swift */; };
@@ -40,6 +41,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5309F35A1CAB45ED00358C72 /* BusAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusAnnotationView.swift; sourceTree = "<group>"; };
 		53111DC21C7E6DAE00F59B8E /* SpotDatum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotDatum.swift; sourceTree = "<group>"; };
 		5340941E1C7F0521005329D4 /* GotOnButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GotOnButton.swift; sourceTree = "<group>"; };
 		53596DF21C7F99BD006FF8D2 /* BusStops.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusStops.swift; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				53596DF41C7FBE91006FF8D2 /* BusStopAnnotationView.swift */,
+				5309F35A1CAB45ED00358C72 /* BusAnnotationView.swift */,
 				537576C31CA795D900462E99 /* StopListRow.swift */,
 				53E2A42B1C6E06C9000A75B1 /* SpotAnnotationView.swift */,
 				5340941E1C7F0521005329D4 /* GotOnButton.swift */,
@@ -257,6 +260,7 @@
 				53E2A42C1C6E06C9000A75B1 /* SpotAnnotationView.swift in Sources */,
 				53111DC31C7E6DAE00F59B8E /* SpotDatum.swift in Sources */,
 				53EDAA491CA4B6E8002F91C7 /* NotificationButtonView.swift in Sources */,
+				5309F35B1CAB45ED00358C72 /* BusAnnotationView.swift in Sources */,
 				53A5E5811C7D286400570D8B /* UTBussesStyles.swift in Sources */,
 				537576CA1CA7A4B700462E99 /* StopNotification.swift in Sources */,
 				537576C41CA795D900462E99 /* StopListRow.swift in Sources */,

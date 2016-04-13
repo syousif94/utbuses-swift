@@ -24,6 +24,7 @@ public class UTBussesStyles : NSObject {
         static let routeBlue: UIColor = UIColor(red: 0.290, green: 0.565, blue: 0.886, alpha: 0.510)
         static let purple: UIColor = UIColor(red: 0.565, green: 0.075, blue: 0.996, alpha: 1.000)
         static let gray: UIColor = UIColor(red: 0.878, green: 0.878, blue: 0.878, alpha: 1.000)
+        static let orange: UIColor = UIColor(red: 0.800, green: 0.345, blue: 0.039, alpha: 1.000)
     }
 
     //// Colors
@@ -35,6 +36,7 @@ public class UTBussesStyles : NSObject {
     public class var routeBlue: UIColor { return Cache.routeBlue }
     public class var purple: UIColor { return Cache.purple }
     public class var gray: UIColor { return Cache.gray }
+    public class var orange: UIColor { return Cache.orange }
 
     //// Drawing Methods
     public class func drawPin(time: NSDate) {
@@ -259,6 +261,70 @@ public class UTBussesStyles : NSObject {
             UIColor.blackColor().setFill()
             closePath.fill()
         }
+    }
+    
+    public class func drawBus(time: NSDate) {
+        //// General Declarations
+        let context = UIGraphicsGetCurrentContext()
+        
+        //// Shadow Declarations
+        let shadow = NSShadow()
+        shadow.shadowColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
+        shadow.shadowOffset = CGSizeMake(0.1, 1.1)
+        shadow.shadowBlurRadius = 4
+        
+        //// Bezier Drawing
+        let bezierPath = UIBezierPath()
+        bezierPath.moveToPoint(CGPointMake(21.5, 22.5))
+        bezierPath.addLineToPoint(CGPointMake(26.26, 18))
+        bezierPath.addLineToPoint(CGPointMake(16.74, 18))
+        bezierPath.addLineToPoint(CGPointMake(21.5, 22.5))
+        bezierPath.closePath()
+        bezierPath.moveToPoint(CGPointMake(6.11, 0))
+        bezierPath.addLineToPoint(CGPointMake(34.89, 0))
+        bezierPath.addCurveToPoint(CGPointMake(38.32, 0.26), controlPoint1: CGPointMake(36.65, 0), controlPoint2: CGPointMake(37.53, -0))
+        bezierPath.addLineToPoint(CGPointMake(38.47, 0.3))
+        bezierPath.addCurveToPoint(CGPointMake(40.7, 2.53), controlPoint1: CGPointMake(39.51, 0.68), controlPoint2: CGPointMake(40.32, 1.49))
+        bezierPath.addCurveToPoint(CGPointMake(41, 6.11), controlPoint1: CGPointMake(41, 3.47), controlPoint2: CGPointMake(41, 4.35))
+        bezierPath.addLineToPoint(CGPointMake(41, 11.89))
+        bezierPath.addCurveToPoint(CGPointMake(40.74, 15.32), controlPoint1: CGPointMake(41, 13.65), controlPoint2: CGPointMake(41, 14.53))
+        bezierPath.addLineToPoint(CGPointMake(40.7, 15.47))
+        bezierPath.addCurveToPoint(CGPointMake(38.47, 17.7), controlPoint1: CGPointMake(40.32, 16.51), controlPoint2: CGPointMake(39.51, 17.32))
+        bezierPath.addCurveToPoint(CGPointMake(34.89, 18), controlPoint1: CGPointMake(37.53, 18), controlPoint2: CGPointMake(36.65, 18))
+        bezierPath.addLineToPoint(CGPointMake(6.11, 18))
+        bezierPath.addCurveToPoint(CGPointMake(2.68, 17.74), controlPoint1: CGPointMake(4.35, 18), controlPoint2: CGPointMake(3.47, 18))
+        bezierPath.addLineToPoint(CGPointMake(2.53, 17.7))
+        bezierPath.addCurveToPoint(CGPointMake(0.3, 15.47), controlPoint1: CGPointMake(1.49, 17.32), controlPoint2: CGPointMake(0.68, 16.51))
+        bezierPath.addCurveToPoint(CGPointMake(0, 11.89), controlPoint1: CGPointMake(0, 14.53), controlPoint2: CGPointMake(0, 13.65))
+        bezierPath.addLineToPoint(CGPointMake(0, 6.11))
+        bezierPath.addCurveToPoint(CGPointMake(0.26, 2.68), controlPoint1: CGPointMake(0, 4.35), controlPoint2: CGPointMake(-0, 3.47))
+        bezierPath.addLineToPoint(CGPointMake(0.3, 2.53))
+        bezierPath.addCurveToPoint(CGPointMake(2.53, 0.3), controlPoint1: CGPointMake(0.68, 1.49), controlPoint2: CGPointMake(1.49, 0.68))
+        bezierPath.addCurveToPoint(CGPointMake(6.11, 0), controlPoint1: CGPointMake(3.47, 0), controlPoint2: CGPointMake(4.35, 0))
+        bezierPath.closePath()
+        CGContextSaveGState(context)
+        CGContextSetShadowWithColor(context, shadow.shadowOffset, shadow.shadowBlurRadius, (shadow.shadowColor as! UIColor).CGColor)
+        
+        UTBussesStyles.orange.setFill()
+        bezierPath.fill()
+        CGContextRestoreGState(context)
+        
+        var timeStr = NSDateFormatter.localizedStringFromDate(time, dateStyle: .NoStyle, timeStyle: .ShortStyle)
+        timeStr = timeStr.substringToIndex(timeStr.endIndex.predecessor().predecessor().predecessor())
+        
+        
+        //// Text Drawing
+        let textRect = CGRectMake(0, 1, 41, 14)
+        let textStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
+        textStyle.alignment = .Center
+        
+        let textFontAttributes = [NSFontAttributeName: UIFont(name: "HelveticaNeue-Medium", size: UIFont.systemFontSize())!, NSForegroundColorAttributeName: UIColor.whiteColor(), NSParagraphStyleAttributeName: textStyle]
+        
+        let textTextHeight: CGFloat = NSString(string: timeStr).boundingRectWithSize(CGSizeMake(textRect.width, CGFloat.infinity), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textFontAttributes, context: nil).size.height
+        CGContextSaveGState(context)
+        CGContextClipToRect(context, textRect);
+        NSString(string: timeStr).drawInRect(CGRectMake(textRect.minX, textRect.minY + (textRect.height - textTextHeight) / 2, textRect.width, textTextHeight), withAttributes: textFontAttributes)
+        CGContextRestoreGState(context)
     }
 
 }
