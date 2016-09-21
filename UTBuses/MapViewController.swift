@@ -52,40 +52,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         locationManager.requestWhenInUseAuthorization()
     }
     
-    /*
-    
-    var currentRoute: Any?
-    
-    func changeRoute(route: String) {
-        currentRoute = routes[route]
-        getBuses()
-        for (_, bus) in self.spots {
-            dispatch_async(dispatch_get_main_queue()) {
-                self.map.removeAnnotation(bus)
-            }
-        }
-        self.spots.removeAll()
-        let center = CLLocation(latitude: currentRoute.centerLat, longitude: currentRoute.centerLon)
-        let query = geoFire.queryAtLocation(center, withRadius: currentRoute.queryRadius)
-        query.observeEventType(.KeyEntered, withBlock: { (key: String!, location: CLLocation!) in
-            self.wcDataRef.childByAppendingPath(key).observeSingleEventOfType(.Value, withBlock: { snapshot in
-                guard let deviceTime = snapshot.childSnapshotForPath("deviceTime").value as? Double else {
-                    return
-                }
-                guard let serverTime = snapshot.childSnapshotForPath("timestamp").value as? Double else {
-                    return
-                }
-                self.createPin(key, location: location, deviceTime: deviceTime, serverTime: serverTime)
-            })
-        })
-        
-        query.observeEventType(.KeyExited, withBlock: { (key: String!, location: CLLocation!) in
-            self.removePin(key)
-        })
-    }
- 
-    */
-    
     let notificationCenter = NSNotificationCenter.defaultCenter()
     
     let notification = CWStatusBarNotification()
@@ -220,7 +186,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     func getBuses() {
-        guard let URL = NSURL(string: "http://52.88.82.199.xip.io:8080/onebusaway-api-webapp/api/where/vehicles-for-agency/1.json?key=TEST") else { return }
+        guard let URL = NSURL(string: "https://lnykjry6ze.execute-api.us-west-2.amazonaws.com/prod/gtfsrt-debug?url=https://data.texas.gov/download/eiei-9rpf/application/octet-stream") else { return }
         let request = NSURLRequest(URL: URL)
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) { data, response, error in
@@ -229,21 +195,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             }
             do {
                 let JSON = try NSJSONSerialization.JSONObjectWithData(d, options: []) as! [String: AnyObject]
-                guard var trips = JSON["data"]!["references"]!!["trips"] as? [AnyObject] else {
+                guard let vehicles = JSON["entity"]! as? [AnyObject] else {
                     return
                 }
-                trips = trips.filter() { (trip) in
-                    let routeId = trip["routeId"] as! String
-                    return routeId == "1_642"
-                }
-                let tripIds = trips.map() { (trip) -> String in
-                    let tripId = trip["id"] as! String
-                    return tripId
-                }
-                let vehicles = JSON["data"]!["list"] as! [AnyObject]
                 let vehicleList = vehicles.filter() { (vehicle) in
-                    let vId = vehicle["tripId"] as! String
-                    return tripIds.contains(vId)
+                    let routeId = vehicle["vehicle"]!!["trip"]!!["route_id"] as! String
+                    return routeId == "642"
                 }
                 for (_, bus) in self.buses {
                     dispatch_async(dispatch_get_main_queue()) {
@@ -252,10 +209,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 }
                 self.buses.removeAll()
                 for vehicle in vehicleList {
-                    let vId = vehicle["vehicleId"] as! String
-                    let latitude = vehicle["location"]!!["lat"] as! Double
-                    let longitude = vehicle["location"]!!["lon"] as! Double
-                    let time = vehicle["lastUpdateTime"] as! Double
+                    let vId = vehicle["id"] as! String
+                    let latitude = vehicle["vehicle"]!!["position"]!!["latitude"] as! Double
+                    let longitude = vehicle["vehicle"]!!["position"]!!["longitude"] as! Double
+                    let time = vehicle["vehicle"]!!["timestamp"] as! Double * 1000
                     let location = CLLocation(latitude: latitude, longitude: longitude)
                     let spot = SpotDatum(location: location, deviceTime: time, serverTime: time)
                     self.buses[vId] = SpotAnnotation(type: "bus", location: spot.location, time: spot.deviceTime)
