@@ -78,8 +78,8 @@ public class UTBussesStyles : NSObject {
         bezierPath.addCurveToPoint(CGPointMake(2.53, 0.3), controlPoint1: CGPointMake(0.68, 1.49), controlPoint2: CGPointMake(1.49, 0.68))
         bezierPath.addCurveToPoint(CGPointMake(6.11, 0), controlPoint1: CGPointMake(3.47, 0), controlPoint2: CGPointMake(4.35, 0))
         bezierPath.closePath()
-        CGContextSaveGState(context)
-        CGContextSetShadowWithColor(context, shadow.shadowOffset, shadow.shadowBlurRadius, (shadow.shadowColor as! UIColor).CGColor)
+        CGContextSaveGState(context!)
+        CGContextSetShadowWithColor(context!, shadow.shadowOffset, shadow.shadowBlurRadius, (shadow.shadowColor as! UIColor).CGColor)
         
         let greenTime: Double = 5 * 60
         let yellowTime: Double = 10 * 60
@@ -96,7 +96,7 @@ public class UTBussesStyles : NSObject {
             UTBussesStyles.red.setFill()
         }
         bezierPath.fill()
-        CGContextRestoreGState(context)
+        CGContextRestoreGState(context!)
         
         var timeStr = NSDateFormatter.localizedStringFromDate(time, dateStyle: .NoStyle, timeStyle: .ShortStyle)
         timeStr = timeStr.substringToIndex(timeStr.endIndex.predecessor().predecessor().predecessor())
@@ -110,10 +110,10 @@ public class UTBussesStyles : NSObject {
         let textFontAttributes = [NSFontAttributeName: UIFont(name: "HelveticaNeue-Medium", size: UIFont.systemFontSize())!, NSForegroundColorAttributeName: UIColor.whiteColor(), NSParagraphStyleAttributeName: textStyle]
         
         let textTextHeight: CGFloat = NSString(string: timeStr).boundingRectWithSize(CGSizeMake(textRect.width, CGFloat.infinity), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textFontAttributes, context: nil).size.height
-        CGContextSaveGState(context)
-        CGContextClipToRect(context, textRect);
+        CGContextSaveGState(context!)
+        CGContextClipToRect(context!, textRect);
         NSString(string: timeStr).drawInRect(CGRectMake(textRect.minX, textRect.minY + (textRect.height - textTextHeight) / 2, textRect.width, textTextHeight), withAttributes: textFontAttributes)
-        CGContextRestoreGState(context)
+        CGContextRestoreGState(context!)
     }
     
     public class func drawButton(getOnButton getOnButton: CGRect = CGRectMake(0, 0, 320, 50), gotOnLabel: String = "I just got on the bus!") {
@@ -138,10 +138,10 @@ public class UTBussesStyles : NSObject {
         let rectangleFontAttributes = [NSFontAttributeName: UIFont(name: "HelveticaNeue", size: 18)!, NSForegroundColorAttributeName: buttonBlue, NSParagraphStyleAttributeName: rectangleStyle]
         
         let rectangleTextHeight: CGFloat = NSString(string: gotOnLabel).boundingRectWithSize(CGSizeMake(rectangleRect.width, CGFloat.infinity), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: rectangleFontAttributes, context: nil).size.height
-        CGContextSaveGState(context)
-        CGContextClipToRect(context, rectangleRect);
+        CGContextSaveGState(context!)
+        CGContextClipToRect(context!, rectangleRect);
         NSString(string: gotOnLabel).drawInRect(CGRectMake(rectangleRect.minX, rectangleRect.minY + (rectangleRect.height - rectangleTextHeight) / 2, rectangleRect.width, rectangleTextHeight), withAttributes: rectangleFontAttributes)
-        CGContextRestoreGState(context)
+        CGContextRestoreGState(context!)
     }
     
     public class func drawBusStop() {
@@ -302,12 +302,12 @@ public class UTBussesStyles : NSObject {
         bezierPath.addCurveToPoint(CGPointMake(2.53, 0.3), controlPoint1: CGPointMake(0.68, 1.49), controlPoint2: CGPointMake(1.49, 0.68))
         bezierPath.addCurveToPoint(CGPointMake(6.11, 0), controlPoint1: CGPointMake(3.47, 0), controlPoint2: CGPointMake(4.35, 0))
         bezierPath.closePath()
-        CGContextSaveGState(context)
-        CGContextSetShadowWithColor(context, shadow.shadowOffset, shadow.shadowBlurRadius, (shadow.shadowColor as! UIColor).CGColor)
+        CGContextSaveGState(context!)
+        CGContextSetShadowWithColor(context!, shadow.shadowOffset, shadow.shadowBlurRadius, (shadow.shadowColor as! UIColor).CGColor)
         
         UTBussesStyles.orange.setFill()
         bezierPath.fill()
-        CGContextRestoreGState(context)
+        CGContextRestoreGState(context!)
         
         var timeStr = NSDateFormatter.localizedStringFromDate(time, dateStyle: .NoStyle, timeStyle: .ShortStyle)
         timeStr = timeStr.substringToIndex(timeStr.endIndex.predecessor().predecessor().predecessor())
@@ -321,10 +321,10 @@ public class UTBussesStyles : NSObject {
         let textFontAttributes = [NSFontAttributeName: UIFont(name: "HelveticaNeue-Medium", size: UIFont.systemFontSize())!, NSForegroundColorAttributeName: UIColor.whiteColor(), NSParagraphStyleAttributeName: textStyle]
         
         let textTextHeight: CGFloat = NSString(string: timeStr).boundingRectWithSize(CGSizeMake(textRect.width, CGFloat.infinity), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textFontAttributes, context: nil).size.height
-        CGContextSaveGState(context)
-        CGContextClipToRect(context, textRect);
+        CGContextSaveGState(context!)
+        CGContextClipToRect(context!, textRect);
         NSString(string: timeStr).drawInRect(CGRectMake(textRect.minX, textRect.minY + (textRect.height - textTextHeight) / 2, textRect.width, textTextHeight), withAttributes: textFontAttributes)
-        CGContextRestoreGState(context)
+        CGContextRestoreGState(context!)
     }
 
 }

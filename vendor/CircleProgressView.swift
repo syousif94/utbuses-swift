@@ -89,7 +89,7 @@ import UIKit
     }
     
     func internalInit() {
-        displayLink = CADisplayLink(target: self, selector: Selector("displayLinkTick"))
+        displayLink = CADisplayLink(target: self, selector: #selector(CircleProgressView.displayLinkTick))
     }
     
     override public func drawRect(rect: CGRect) {
@@ -129,7 +129,7 @@ import UIKit
         progressPath.addLineToPoint(CGPointMake(progressRect.midX, progressRect.midY))
         progressPath.closePath()
         
-        CGContextSaveGState(context)
+        CGContextSaveGState(context!)
         
         progressPath.addClip()
         
@@ -140,7 +140,7 @@ import UIKit
             circlePath.fill()
         }
         
-        CGContextRestoreGState(context)
+        CGContextRestoreGState(context!)
         
         // center Drawing
         let centerPath = UIBezierPath(ovalInRect: CGRectMake(innerRect.minX + trackWidth, innerRect.minY + trackWidth, CGRectGetWidth(innerRect) - (2 * trackWidth), CGRectGetHeight(innerRect) - (2 * trackWidth)))
@@ -148,10 +148,10 @@ import UIKit
         centerPath.fill()
         
         if let centerImage = centerImage {
-            CGContextSaveGState(context)
+            CGContextSaveGState(context!)
             centerPath.addClip()
             centerImage.drawInRect(rect)
-            CGContextRestoreGState(context)
+            CGContextRestoreGState(context!)
         } else {
             let layer = CAShapeLayer()
             layer.path = centerPath.CGPath

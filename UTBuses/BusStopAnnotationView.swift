@@ -19,10 +19,6 @@ class BusStopAnnotationView: MKAnnotationView {
         self.layer.zPosition = 0.1
     }
     
-    override init(frame: CGRect) {
-        super.init(frame:frame)
-    }
-    
     required init(coder: NSCoder) {
         fatalError("NSCoding not supported")
     }

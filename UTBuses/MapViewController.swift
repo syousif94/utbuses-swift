@@ -120,7 +120,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 self.gotOnBtn.setTitleColor(UIColor.redColor(), forState: .Normal)
                 self.undoTimeLeft.hidden = false
             }
-            undoTimer = NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: "updateUndoCircle", userInfo: nil, repeats: true)
+            undoTimer = NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: #selector(MapViewController.updateUndoCircle), userInfo: nil, repeats: true)
             let checkIn = ["deviceTime": deviceTime, "timestamp": kFirebaseServerValueTimestamp, "stopName": stop.name, "stopId": stop.id]
             checkInRef!.setValue(checkIn, withCompletionBlock: {
                 (error:NSError?, ref:Firebase!) in
@@ -199,7 +199,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                     return
                 }
                 let vehicleList = vehicles.filter() { (vehicle) in
-                    let routeId = vehicle["vehicle"]!!["trip"]!!["route_id"] as! String
+                    guard let routeId = vehicle["vehicle"]!!["trip"]!!["route_id"] as? String else {
+                        return false
+                    }
                     return routeId == "642"
                 }
                 for (_, bus) in self.buses {
@@ -294,11 +296,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         })
         
         notificationCenter.addObserver(self,
-            selector:Selector("applicationWillResignActiveNotification"),
+            selector:#selector(MapViewController.applicationWillResignActiveNotification),
             name:UIApplicationWillResignActiveNotification,
             object:nil)
         
-        self.timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "refreshPinBackgrounds", userInfo: nil, repeats: true)
+        self.timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(MapViewController.refreshPinBackgrounds), userInfo: nil, repeats: true)
         
         getBuses()
         fetchBusesTimer = NSTimer.scheduledTimerWithTimeInterval(15, target: self, selector: #selector(getBuses), userInfo: nil, repeats: true)
