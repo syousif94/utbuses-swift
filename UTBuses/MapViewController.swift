@@ -211,7 +211,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 }
                 self.buses.removeAll()
                 for vehicle in vehicleList {
-                    let vId = vehicle["id"] as! String
+                    let vId = vehicle["vehicle"]!!["trip"]!!["trip_id"] as! String
                     let latitude = vehicle["vehicle"]!!["position"]!!["latitude"] as! Double
                     let longitude = vehicle["vehicle"]!!["position"]!!["longitude"] as! Double
                     let time = vehicle["vehicle"]!!["timestamp"] as! Double * 1000
