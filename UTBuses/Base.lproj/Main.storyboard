@@ -189,7 +189,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1002" y="440"/>
+            <point key="canvasLocation" x="610" y="444"/>
         </scene>
         <!--Stops Table View Controller-->
         <scene sceneID="n7X-Ei-akn">
@@ -204,7 +204,7 @@
                                 <rect key="frame" x="0.0" y="28" width="550" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0kV-xl-2Io" id="zNV-Nc-BeP">
-                                    <frame key="frameInset" width="550" height="43.5"/>
+                                    <frame key="frameInset" width="550" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pqG-hS-k1y">
